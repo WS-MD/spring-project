@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.board.mapper.BoardMapper">
+	<select id="boardList" resultType="com.example.demo.board.BoardVO">
+		SELECT
+			*
+		FROM
+			BOARD
+	</select>
+	<select id="boardDetail" parameterType="int" resultType="com.example.demo.board.BoardVO">
+		SELECT
+			*
+		FROM
+			BOARD
+		WHERE
+			board_seq = #{board_seq}
+	</select>
+	<select id="boardCount" resultType="int">
+			SELECT
+					COUNT(*)
+			FROM
+				BOARD
+	</select>
+	<insert id="boardInsert" parameterType="com.example.demo.board.BoardVO">
+		INSERT INTO
+			BOARD
+			(board_kind, content, reg_dt, reg_id, title, member_seq)
+		VALUES
+			('1', #{content}, NOW(), 'user', #{title}, '1')
+	</insert>
+
+	<update id="boardUpdate" parameterType="com.example.demo.board.BoardVO">
+		UPDATE
+			BOARD
+		SET
+			update_dt = NOW()
+			<if test="title != null">
+				, title = #{title}
+			</if>
+			<if test="content != null">
+				, content = #{content}
+			</if>
+		WHERE
+			board_seq = #{board_seq}
+	</update>
+
+	<delete id="boardDelete" parameterType="int">
+		DELETE FROM
+			BOARD
+		WHERE
+			board_seq = #{board_seq}
+	</delete>
+</mapper>
